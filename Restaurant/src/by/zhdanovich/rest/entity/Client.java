@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.zhdanovich.rest.entity.Desk.StateDesk;
 import by.zhdanovich.rest.entity.Order.StatusOrder;
 import by.zhdanovich.rest.exception.WrongDataException;
 
@@ -12,6 +13,8 @@ public class Client extends Thread {
 	private static Logger log = LogManager.getLogger(Client.class);
 	private Restaurant restaurant;
 	private int clientId;
+	private Desk desk;
+	
 	private Status status = Status.WAITING;
 	public enum Status {
 		WAITING, SERVE, NOT_SATISFIED
@@ -42,6 +45,7 @@ public class Client extends Thread {
 
 				if (order.getStatusOrder() != StatusOrder.TAKE) {
 					System.out.println("Client " + clientId + " does not wait for the order and went home from the restaurant " + restaurant.getName());
+					desk.setStatusDesk(StateDesk.FREE);
 				} else {
 					System.out.println("Client " + clientId + "  was satisfied and went home from  " + restaurant.getName());
 				}
@@ -85,5 +89,13 @@ public class Client extends Thread {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	public Desk getDesk() {
+		return desk;
+	}
+
+	public void setDesk(Desk desk) {
+		this.desk = desk;
+	}
+
 
 }

@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.zhdanovich.rest.entity.Client.Status;
-import by.zhdanovich.rest.entity.Desk.State;
+import by.zhdanovich.rest.entity.Desk.StateDesk;
 import by.zhdanovich.rest.exception.WrongDataException;
 import by.zhdanovich.rest.runner.RunnerTask;
 
@@ -31,19 +31,19 @@ public class Booking {
 				clients.removeFirst();
 				Desk desk = this.enterToDesk(client);
 				if (desk != null) {
+					client.setDesk(desk);
 					try {
 						TimeUnit.MILLISECONDS.sleep(500);
 					} catch (InterruptedException e) {
 						log.error("Mistake of the thread.", e);
 					}
-
 					if (RunnerTask.random.nextBoolean()) {
 						System.out.println("Client" + client.getClientId() + " booked desk " + desk.getDeskId()
 								+ "in the restaurant " + client.getRestaurant().getName());
-						desk.setStatusDesk(State.BOOKED);
+						desk.setStatusDesk(StateDesk.BOOKED);
 						client.setStatus(Status.SERVE);
 					} else {
-						desk.setStatusDesk(State.FREE);
+						desk.setStatusDesk(StateDesk.FREE);
 						client.setStatus(Status.NOT_SATISFIED);
 						System.out.println("Client" + client.getClientId() + " refused book desk " + desk.getDeskId()
 								+ "in the restaurant " + client.getRestaurant().getName());
@@ -70,7 +70,7 @@ public class Booking {
 	private Desk enterToDesk(Client client) {
 		Desk result = null;
 		for (Desk desk : client.getRestaurant().getDesks()) {
-			if (desk.getStatusDesk() != State.BOOKED) {
+			if (desk.getStatusDesk() != StateDesk.BOOKED) {
 				result = desk;
 			}
 		}

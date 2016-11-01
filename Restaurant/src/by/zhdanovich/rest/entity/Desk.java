@@ -4,9 +4,9 @@ package by.zhdanovich.rest.entity;
 public class Desk {
 	private int deskId;	
 	private int waitingTime;
-	private  State statusDesk = State.FREE;	
+	private  StateDesk statusDesk = StateDesk.FREE;	
 	
-	public enum State{
+	public enum StateDesk{
 		BOOKED, FREE
 	}
 
@@ -23,11 +23,11 @@ public class Desk {
 	return waitingTime;
 	} 
 		    
-	public State getStatusDesk() {
+	public StateDesk getStatusDesk() {
 	return statusDesk;
 	}
 
-	public void setStatusDesk(State statusDesk) {
+	public void setStatusDesk(StateDesk statusDesk) {
 	this.statusDesk = statusDesk;
 	}
 }
